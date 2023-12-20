@@ -16,7 +16,7 @@ class UserService {
         return { status: "error", message: "Error creating cart" };
       }
 
-      const role = email === ENV_CONFIG.adminEmail && password === ENV_CONFIG.adminPassword
+      const role = email === ENV_CONFIG.ADMIN_EMAIL && password === ENV_CONFIG.ADMIN_PASSWORD
       ? "admin"
       : email === ENV_CONFIG.premiumEmail && password === ENV_CONFIG.premiumPassword
       ? "premium"
@@ -32,7 +32,7 @@ class UserService {
         age,
         password,
         role,
-        cart: cartId,
+        cart: cartId
       });
 
       if (user) {

@@ -1,17 +1,20 @@
 import { Router } from "express";
 import CartManager from "../dao/cartManager.js";
 import cartControllers from "../controllers/cartControllers.js";
+import userControllers from "../controllers/userController.js";
 import {authorization, passportCall} from "../../utils.js"
 import userModel from "../dao/models/user.model.js"
+import Stripe from "stripe";
+
+const stripe = new Stripe( "sk_test_51OK8LoKCVaSgsa9SgRcJiUoFzGyB0bW3Lq0Ed1EypE01r00kDH62pBVY4DUNtXfe0VRVYpuccKVyhZvxEI7jynu600UJhbf0Jh")
 
 const cartsRouter = Router();
-const CM = new CartManager();
 
-cartsRouter.post("/", cartControllers.createCart.bind(cartControllers));
+const CM = new CartManager();
 
 cartsRouter.get("/:cid", cartControllers.getCart.bind(cartControllers));
 
-cartsRouter.post("/:cid/products/:pid", passportCall('jwt'), authorization(['user']), cartControllers.addProductToCart.bind(cartControllers));
+cartsRouter.post("/products/:pid", cartControllers.addProductToCart.bind(cartControllers));
 
 cartsRouter.put("/:cid/products/:pid", cartControllers.updateQuantityProductFromCart.bind(cartControllers));
 
@@ -25,7 +28,8 @@ cartsRouter.post("/:cid/purchase", (req, res, next) => {
     console.log('Ruta de compra accedida');
     next();
   }, passportCall("jwt"), cartControllers.createPurchaseTicket.bind(cartControllers));
-  cartsRouter.get("/usuario/carrito", passportCall('jwt'), authorization(['user']), async (req, res) => {
+
+cartsRouter.get("/usuario/carrito", passportCall('jwt'), authorization(['user']), async (req, res) => {
     try {
       const userId = req.user._id; 
       const user = await userModel.findById(userId); 

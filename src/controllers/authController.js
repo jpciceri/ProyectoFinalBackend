@@ -1,22 +1,32 @@
 import AuthService from "../services/authService.js";
 import CustomError from "../services/errors/CustomError.js";
-import { generateAuthenticationErrorInfo } from "../services/errors/messages/user-auth-error.js";
-import { createHash,isValidPassword } from "../../utils.js";
+import {
+  generateAuthenticationErrorInfo
+} from "../services/errors/messages/user-auth-error.js";
+import {
+  createHash,
+  isValidPassword
+} from "../../utils.js";
 import userModel from "../dao/models/user.model.js";
 import sendResetPasswordEmail from "./resetPasawordController.js";
+import CartService from '../services/cartServices.js'
 
 class AuthController {
   constructor() {
     this.authService = new AuthService();
+    this.cartService = new CartService();
   }
 
   async login(req, res, next) {
     try {
-      const { email, password } = req.body;
+      const {
+        email,
+        password
+      } = req.body;
       const userData = await this.authService.login(email, password);
       req.logger.info("User data retrieved:", userData);
 
-      if (!userData || !userData.user) {
+      if (!userData || !userData.user) {        
         req.logger.error("Invalid credentials");
         const customError = new CustomError({
           name: "Authentication Error",
@@ -28,6 +38,8 @@ class AuthController {
       }
 
       if (userData && userData.user) {
+        let cart = await this.cartService.createCart();
+
         req.session.user = {
           id: userData.user.id || userData.user._id,
           email: userData.user.email,
@@ -35,7 +47,7 @@ class AuthController {
           last_name: userData.user.lastName || userData.user.last_name,
           age: userData.user.age,
           role: userData.user.role,
-          cart: userData.user.cart,
+          cart: cart.id,
         };
       }
 
@@ -80,7 +92,9 @@ class AuthController {
   }
 
   async restorePassword(req, res) {
-    const { email } = req.body;
+    const {
+      email
+    } = req.body;
     try {
       await sendResetPasswordEmail(email);
       res.send(
@@ -92,14 +106,19 @@ class AuthController {
         .status(500)
         .send(
           "Hubo un error al procesar tu solicitud de restablecimiento de contraseña. " +
-            error.message
+          error.message
         );
     }
   }
 
   async resetPassword(req, res) {
-    const { token } = req.params;
-    const { password, confirmPassword } = req.body;
+    const {
+      token
+    } = req.params;
+    const {
+      password,
+      confirmPassword
+    } = req.body;
 
     if (password !== confirmPassword) {
       return res.status(400).send("Las contraseñas no coinciden.");
@@ -108,13 +127,14 @@ class AuthController {
     try {
       const user = await userModel.findOne({
         resetPasswordToken: token,
-        resetPasswordExpires: { $gt: Date.now() },
+        resetPasswordExpires: {
+          $gt: Date.now()
+        },
       });
 
       if (!user) {
         return res.status(400).json({
-          message:
-            "El token de restablecimiento de contraseña es inválido o ha expirado.",
+          message: "El token de restablecimiento de contraseña es inválido o ha expirado.",
           tokenExpired: true,
         });
       }

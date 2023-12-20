@@ -23,7 +23,7 @@ const loginUser = async () => {
         const data = await response.json();
         console.log(data);
 
-        if (data.status === "OK") {
+        if (data.status === "success") {
             console.log("inicio de sesión exitosa");
             window.location.href = "/products";
         } else {

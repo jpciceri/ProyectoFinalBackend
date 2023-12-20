@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="/src/public/css/products.css" />
+    <title>Casio ticket</title>
+</head>
+
+<body>
+    <div class="ticket-container">
+        <div class="ticket-card">
+            <h1>Ticket de Compra:</h1>
+            <p>Código del Ticket: {{ticket.code}}</p>
+            <p>Fecha: {{ticket.purchase_datetime}}</p>
+            <p>Total a pagar: ${{ticket.amount}}</p>
+            <p>Comprador: {{ticket.purchaser}}</p>
+        </div>
+    </div>
+</body>
+
+</html>

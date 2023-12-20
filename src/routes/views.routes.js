@@ -4,6 +4,7 @@ import CartManager from "../dao/cartManager.js";
 import cartControllers from "../controllers/cartControllers.js";
 import { checkAlreadyLoggedIn, checkSession} from "../middlewares/ingreso.js"
 import userModel from "../dao/models/user.model.js";
+import ticketController from "../controllers/ticketController.js";
 
 const router = express.Router();
 const PM = new ProductManager();
@@ -22,7 +23,6 @@ async function loadUserCart(req, res, next) {
   }
   next();
 }
-
 
 router.get("/", checkSession, async (req, res) => {
   const products = await PM.getProducts(req.query);
@@ -47,9 +47,12 @@ router.get("/products/:pid", async (req, res) => {
   }
 });
 
-router.get("/carts", loadUserCart, async (req, res) => {
-  const cart = req.cart;
 
+
+router.get("/cart", loadUserCart, async (req, res) => {
+  const cid = req.session.user.cart;
+  const cart =await CM.getCart(cid)
+  
   if (cart) {
     console.log(JSON.stringify(cart, null, 4));
     res.render("cart", { products: cart.products });
@@ -61,11 +64,25 @@ router.get("/carts", loadUserCart, async (req, res) => {
   }
 });
 
-
-
-router.post("/carts/:cid/purchase", async (req, res) => {
+router.post("/cart/:cid/purchase", async (req, res) => {
   const cid = req.params.cid;
   cartControllers.getPurchase(req, res, cid);
+});
+
+router.get("/mostrar-ticket/:ticketId", async (req, res) => {
+  const ticketId = req.params.ticketId;
+  try {
+    const ticket = await ticketController.getTicketById(ticketId);
+
+    if (ticket) {
+      res.render("ticket", { ticket });
+    } else {
+      res.status(404).send("Ticket no encontrado");
+    }
+  } catch (error) {
+    console.error("Error al mostrar el ticket:", error);
+    res.status(500).send("Error interno del servidor");
+  }
 });
 
 router.get("/realtimeproducts", (req, res) => {

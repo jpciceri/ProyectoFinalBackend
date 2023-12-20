@@ -25,6 +25,8 @@ import loggerRouter from "./src/routes/logger.routes.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUIExpress from 'swagger-ui-express';
 import usersRouter from "./src/routes/users.routes.js";
+import paymentsRouter from "./src/routes/payments.routes.js";
+
 
 
 const app = express();
@@ -101,14 +103,15 @@ app.use(passport.session());
 initializePassport();
 
 app.use("/api/products/", productsRouter);
-app.use("/api/carts/", cartsRouter);
+app.use("/api/cart/", cartsRouter);
 app.use("/api/sessions/", sessionsRouter);
-app.use("/api/users", usersRouter);
+app.use("/api/user", usersRouter);
 app.use("/", viewsRouter);
 app.use('/email', emailRouter);
 app.use('/mockingproducts', mockingRouter);
 app.get("/logger", loggerRouter);
 app.use("/apidocs", swaggerUIExpress.serve, swaggerUIExpress.setup(specs));
+app.use("/payment", paymentsRouter)
 app.get('/loggerTest', (req, res) => {
   devLogger.fatal('Esto es un fatal de prueba.');
   devLogger.error('Esto es un error de prueba.');

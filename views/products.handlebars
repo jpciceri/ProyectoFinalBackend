@@ -5,24 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/src/public/css/products.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <title>Document</title>
+
+    <h1 class="title-home">CASIO</h1>
+    <div class="container-nav">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/products">Products</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/realtimeproducts">realtimeproducts</a></li>
+{{!-- 
+            <li><a href="/cart"><button class="bi bi-cart btn btn-success"id="cartButton">CART</button></a></li> --}}
+    <form action="/api/sessions/logout" method="POST">
+        <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
+            <div class="col-md-6 d-flex align-items-center justify-content-end">
+                <a href="/cart" class="btn btn-secondary position-relative"id="cartButton">
+                    <i class="bi bi-cart">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                      </svg></i>
+                    <span id="cartButton1" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                </a>
+            </div>
+        </ul>
+    </div>
+    </div>
 </head>
 
 <body>
-
-
 
 </html>
 
 <div class="text-center">
     <p style="font-size: 24px">Bienvenido</p>
     <p>{{user.role}} {{user.first_name}} {{user.last_name}}</p>
-    <form action="/profile" method="GET">
-        <button type="submit" class="btn btn-primary" id="btn-profile">Profile</button>
-    </form>
-    <form action="/api/sessions/logout" method="POST">
-        <button type="submit" class="btn btn-primary">Logout</button>
-    </form>
+
 </div>
 <div class="container">
     <div class="row">
@@ -45,9 +64,10 @@
             <nav>
                 <ul class="pagination justify-content-center">
                     {{#if products.hasPrevPage}}
-                        <li class="page-item">
-                            <a class="page-link" href="{{products.prevLink}}"><<</a>
-                        </li>
+                    <li class="page-item">
+                        <a class="page-link" href="{{products.prevLink}}">
+                        </a>
+                    </li>
                     {{/if}}
                     {{#if products.hasPrevPage}}
                     <li class="page-item">
@@ -76,4 +96,5 @@
 <script src="/src/public/cart.js"></script>
 
 </body>
-</html> 
+
+</html>

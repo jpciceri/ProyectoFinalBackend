@@ -15,21 +15,15 @@
         <ul class="nav justify-content-center">
             <li class="nav-item">
                 <a class="nav-link text-dark" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="/realtimeproducts">Real Time Products</a>
-            </li>
+                </li>
             {{#if session.session.loggedIn}}
-            <liclass="nav-item">
+            <li class="nav-item">
                 <a class="nav-link text-dark" href="/logout">Logout</a>
                 {{/if}}
                 </li>
         </ul>
     </div>
-    <picture>
-        <img src="/src/images/banner-casio.avif" class="mx-auto d-block" loading="lazy" alt="ERIC HAZE"
-            style="width: auto; height: 588.2px; margin: 0px auto;" width="1920" height="816" aria-hidden="true">
-    </picture>
+
 
     {{{body}}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"

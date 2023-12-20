@@ -11,23 +11,12 @@ const userSchema = new mongoose.Schema({
     password: String,
     cart: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "carts"
+        ref: "cart"
     },
     role: String,
     resetPasswordToken: String,
     resetPasswordExpires: Date,
-    last_connection: Date,
-    documents: [{
-        name: {
-            type: String,
-            unique: true,
-        },
-        reference: String,
-        status: {
-            type: String,
-            default: "Pending",
-        },
-    }, ],
+    last_connection: Date
 });
 
 const userModel = mongoose.model("users", userSchema);

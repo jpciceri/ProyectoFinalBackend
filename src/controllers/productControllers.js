@@ -3,6 +3,10 @@ import { socketServer } from "../../app.js";
 import CustomError from "../services/errors/CustomError.js";
 import { generateProductErrorInfo } from "../services/errors/messages/product-error.js";
 import mongoose from "mongoose";
+import { transporter } from "./email.controller.js";
+import userModel from "../dao/models/user.model.js";
+
+
 class ProductController {
   constructor() {
     this.productService = new ProductService();
@@ -241,9 +245,6 @@ class ProductController {
 
       const product = await this.productService.getProductById(pid);
 
-      console.log("user", req.user);
-      console.log("product owner", product.owner);
-
       if (!product) {
         req.logger.error("Producto no encontrado");
         res.status(404).send({
@@ -252,7 +253,24 @@ class ProductController {
         });
         return;
       }
+      const owner = await userModel.findById(product.owner);
+      console.log("owner", owner.role);
+      if (owner && owner.role == "premium") {
+        const mailOptions = {
+          from: "tu-email@example.com",
+          to: owner.email,
+          subject: "Tu Producto ha sido Eliminado",
+          text: `Lamentamos informarte que tu producto ${product.title} ha sido eliminado.`,
+        };
 
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.error("Error al enviar correo:", error);
+          } else {
+            console.log("Correo enviado: " + info.response);
+          }
+        });
+      }
       if (
         !req.user ||
         (req.user.role !== "admin" &&

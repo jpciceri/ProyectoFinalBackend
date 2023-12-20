@@ -281,6 +281,10 @@ class UserController {
       res.status(500).send("Error interno del servidor.");
     }
   }
+
+  async getCart(req, res) {
+   return  res.json({ id : req.session.user.cart});
+  }
 }
 
-export default UserController;
+export default new UserController;

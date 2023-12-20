@@ -3,7 +3,7 @@ import UserManager from "../dao/UserManager.js";
 import { createHash, passportCall,authorization} from "../../utils.js";
 import passport from "passport";
 import jwt from "jsonwebtoken";
-import UserController from "../controllers/userController.js";
+import userController from "../controllers/userController.js";
 import AuthController from "../controllers/authController.js";
 import errorHandler from "../middlewares/errorHandler.js"
 import bodyParser from "body-parser";
@@ -13,7 +13,6 @@ const PRIVATE_KEY = "S3CR3T0";
 
 const router = express.Router();
 const UM = new UserManager();
-const userController = new UserController();
 const authController = new AuthController();
 
 router.post("/login", (req, res, next) => authController.login(req, res, next));

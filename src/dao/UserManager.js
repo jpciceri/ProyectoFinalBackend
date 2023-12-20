@@ -12,7 +12,8 @@ class UserManager {
         email,
         age,
         password,
-        role
+        role, 
+        cart
     }) {
         try {
             const existingUser = await userModel.findOne({
