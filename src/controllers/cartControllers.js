@@ -103,8 +103,8 @@ class CartController {
 
   async deleteProductFromCart(req, res) {
     try {
-      const { cid, pid } = req.params;
-      const result = await this.cartService.deleteProductFromCart(cid, pid);
+      const pid = req.params;
+      const result = await this.cartService.deleteProductFromCart(req.session.user.cart, pid);
       res.send(result);
     } catch (error) {
       res.status(400).send({ status: "error", message: error.message });

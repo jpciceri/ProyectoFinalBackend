@@ -1,4 +1,6 @@
-import { cartModel } from "./models/cart.model.js";
+import {
+  cartModel
+} from "./models/cart.model.js";
 import mongoose from "mongoose";
 import ProductManager from "./ProductManager.js";
 
@@ -7,7 +9,9 @@ class CartManager {
     this.productManager = new ProductManager();
   }
   async newCart() {
-    let cart = await cartModel.create({ products: [] });
+    let cart = await cartModel.create({
+      products: []
+    });
     console.log("Cart created:", cart);
     return {
       status: "ok",
@@ -18,7 +22,9 @@ class CartManager {
 
   async getCart(id) {
     if (this.validateId(id)) {
-      const cart = await cartModel.findOne({ _id: id }).lean();
+      const cart = await cartModel.findOne({
+        _id: id
+      }).lean();
       console.log("Retrieved cart:", cart);
       return cart || null;
     } else {
@@ -49,19 +55,32 @@ class CartManager {
         }
 
         if (product.stock < quantity) {
-          return { status: "error", message: "Stock insuficiente!" };
+          return {
+            status: "error",
+            message: "Stock insuficiente!"
+          };
         }
 
-        const updateResult = await cartModel.updateOne(
-          { _id: cid, "products.product": pid },
-          { $inc: { "products.$.quantity": 1 } }
-        );
+        const updateResult = await cartModel.updateOne({
+          _id: cid,
+          "products.product": pid
+        }, {
+          $inc: {
+            "products.$.quantity": 1
+          }
+        });
 
         if (updateResult.matchedCount === 0) {
-          const pushResult = await cartModel.updateOne(
-            { _id: cid },
-            { $push: { products: { product: pid, quantity: 1 } } }
-          );
+          const pushResult = await cartModel.updateOne({
+            _id: cid
+          }, {
+            $push: {
+              products: {
+                product: pid,
+                quantity: 1
+              }
+            }
+          });
         }
 
         return {
@@ -96,23 +115,27 @@ class CartManager {
         console.log(
           "Cart products:",
           cart.products.map((item) =>
-            item.product._id
-              ? item.product._id.toString()
-              : item.product.toString()
+            item.product._id ?
+            item.product._id.toString() :
+            item.product.toString()
           )
         );
 
         const product = cart.products.find(
           (item) =>
-            (item.product._id
-              ? item.product._id.toString()
-              : item.product.toString()) === pid.toString()
+          (item.product._id ?
+            item.product._id.toString() :
+            item.product.toString()) === pid.toString()
         );
 
         if (product) {
           product.quantity = quantity;
 
-          await cartModel.updateOne({ _id: cid }, { products: cart.products });
+          await cartModel.updateOne({
+            _id: cid
+          }, {
+            products: cart.products
+          });
           console.log("Product updated!");
 
           return true;
@@ -132,11 +155,14 @@ class CartManager {
 
   async updateProducts(cid, products) {
     try {
-      await cartModel.updateOne(
-        { _id: cid },
-        { products: products },
-        { new: true, upsert: true }
-      );
+      await cartModel.updateOne({
+        _id: cid
+      }, {
+        products: products
+      }, {
+        new: true,
+        upsert: true
+      });
       console.log("Product updated!");
 
       return true;
@@ -150,10 +176,14 @@ class CartManager {
   async deleteProductFromCart(cid, pid) {
     try {
       if (mongoose.Types.ObjectId.isValid(cid)) {
-        const updateResult = await cartModel.updateOne(
-          { _id: cid },
-          { $pull: { products: { product: pid } } }
-        );
+
+        const updateResult = await cartModel.findOneAndUpdate({
+          _id: cid
+        }, {
+          $pullAll: {
+            products: {_id: pid }
+          }
+        });
 
         if (updateResult.matchedCount > 0) {
           console.log("Product deleted!");
@@ -174,7 +204,12 @@ class CartManager {
       if (this.validateId(cid)) {
         const cart = await this.getCart(cid);
 
-        await cartModel.updateOne({ _id: cid }, { products: [] });
+        await cartModel.findOneAndUpdate({
+          _id: cid
+        }, {
+          $pull:{products: {}}
+          
+        });
         console.log("Products deleted!");
         return true;
       } else {

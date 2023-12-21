@@ -20,16 +20,16 @@ cartsRouter.put("/:cid/products/:pid", cartControllers.updateQuantityProductFrom
 
 cartsRouter.put("/:cid", cartControllers.updateCart.bind(cartControllers));
 
-cartsRouter.delete("/:cid/products/:pid", cartControllers.deleteProductFromCart.bind(cartControllers));
+cartsRouter.delete("/products/:pid", cartControllers.deleteProductFromCart.bind(cartControllers));
 
-cartsRouter.delete("/:cid", cartControllers.deleteProductsFromCart.bind(cartControllers));
+cartsRouter.delete("/products", cartControllers.deleteProductsFromCart.bind(cartControllers));
 
 cartsRouter.post("/:cid/purchase", (req, res, next) => {
     console.log('Ruta de compra accedida');
     next();
   }, passportCall("jwt"), cartControllers.createPurchaseTicket.bind(cartControllers));
 
-cartsRouter.get("/usuario/carrito", passportCall('jwt'), authorization(['user']), async (req, res) => {
+cartsRouter.get("/cart", passportCall('jwt'), authorization(['user']), async (req, res) => {
     try {
       const userId = req.user._id; 
       const user = await userModel.findById(userId); 

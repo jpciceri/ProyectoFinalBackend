@@ -2,7 +2,7 @@
 
 const obtenerIdCarrito = async (req,res) => {
   try {
-    const response = await fetch(`/api/usuario/cart`, {
+    const response = await fetch(`/cart`, {
       headers: {
         "Content-Type": "application/json"
       },
@@ -69,7 +69,7 @@ async function realizarCompra() {
           return;
         }
 
-        const response = await fetch(`/api/cart/purchase`, {
+        const response = await fetch(`/api/cart/${cid}/purchase`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -117,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 const eliminarProductoDelCarrito = async (pid) => {
   try {
-
     const response = await fetch(`/api/cart/products/${pid}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },

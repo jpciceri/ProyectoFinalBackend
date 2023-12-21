@@ -192,7 +192,7 @@ body {
 .product-cart button {
     border: none;
     color: #FFF;
-    background-color: #7D5A5A;
+    background-color: #796c6c;
     height: 40px;
     width: 150px;
 }
@@ -215,7 +215,7 @@ body {
 
 .container-nav ul li {
     text-transform: uppercase;
-    color: #7D5A5A;
+    color: #433e3e;
     list-style-type: none;
     padding: 5%;
 }
@@ -230,3 +230,28 @@ body {
     font-weight: bold;
     color: #886F6F;
 }
+
+.container-register {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.register {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #EAE0DA;
+    color: #886F6F;
+    width: 35%;
+    border-radius: 5px;
+    gap: 20px;
+    padding: 5%;
+}
+
+.form-register input {
+    padding: 10px;
+}
+
