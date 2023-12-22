@@ -29,7 +29,7 @@ cartsRouter.post("/:cid/purchase", (req, res, next) => {
     next();
   }, passportCall("jwt"), cartControllers.createPurchaseTicket.bind(cartControllers));
 
-cartsRouter.get("/cart", passportCall('jwt'), authorization(['user']), async (req, res) => {
+cartsRouter.get("/carts", passportCall('jwt'), authorization(['user']), async (req, res) => {
     try {
       const userId = req.user._id; 
       const user = await userModel.findById(userId); 

@@ -5,24 +5,38 @@ class TicketController {
     this.ticketService = new TicketService();
   }
 
-  async createTicket(req, res) {
-    try {
-      console.log("Datos recibidos en req.body:", req.body);
-
-      const data = req.body;
-      const ticket = await this.ticketService.createTicket(data);
-
-      if (ticket) {
-        req.logger.info("Ticket creado", ticket); // Esto debe mostrarte el ticket que se creó.
-        res.status(201).json(ticket);
-      } else {
-        throw new Error("Error al crear el ticket");
+  async createTicket(ticketData) {
+    if (!ticketData) {
+        console.error('Datos del ticket no proporcionados');
+        throw new Error('Datos del ticket no proporcionados');
       }
+    try {
+        const ticket = await this.ticketService.createTicket(ticketData);
+
+        if (ticket) {
+            return ticket;  
+        } else {
+            throw new Error("Error al crear el ticket");
+        }
     } catch (error) {
-      req.logger.error('Error específico en la creación del ticket:', error);
-      res.status(500).json({ error: error.message });
+        console.error('Error específico en la creación del ticket:', error);
+        throw error;  
     }
   }
-}
 
+  async getTicketById(ticketId) {
+      try {
+        const ticket = await this.ticketService.getTicketById(ticketId);
+  
+        if (!ticket) {
+          throw new Error("Ticket no encontrado");
+        }
+  
+        return ticket;
+      } catch (error) {
+        console.error("Error al obtener el ticket:", error);
+        throw error;
+      }
+    }
+}
 export default new TicketController();
