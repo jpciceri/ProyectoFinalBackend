@@ -177,11 +177,11 @@ class CartManager {
     try {
       if (mongoose.Types.ObjectId.isValid(cid)) {
 
-        const updateResult = await cartModel.findOneAndUpdate({
+        const updateResult = await cartModel.updateOne({
           _id: cid
         }, {
-          $pullAll: {
-            products: {_id: pid }
+          $pull: {
+            products: { product: pid }
           }
         });
 
@@ -207,8 +207,7 @@ class CartManager {
         await cartModel.findOneAndUpdate({
           _id: cid
         }, {
-          $pull:{products: {}}
-          
+          $pull:{products: {}}          
         });
         console.log("Products deleted!");
         return true;

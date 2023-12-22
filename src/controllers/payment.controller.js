@@ -4,14 +4,9 @@ import { ENV_CONFIG } from "../config/config.js";
 
 const stripe = new Stripe(ENV_CONFIG.stripeKey);
 
-export const createPayment = async (req, res) => {
-  const cartId = req.body.cartId;
-
-  if (!cartId) {
-    return res.status(400).json({ error: "Cart ID is required" });
-  }
-
+export const createPayment = async (req, res) => {  
   try {
+    const cartId = req.session.user.cart;
     const cart = await cartControllers.getCartById(cartId);
 
     if (!cart || !cart.products || cart.products.length === 0) {

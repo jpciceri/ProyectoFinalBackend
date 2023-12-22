@@ -1,26 +1,5 @@
 
 
-const obtenerIdCarrito = async (req,res) => {
-  try {
-    const response = await fetch(`/cart`, {
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "include",
-    });
-
-    if (!response.ok) {
-      console.error("Error obteniendo el ID del carrito");
-      return null;
-    }
-
-    const data = await response.json();
-    return data.id;
-  } catch (error) {
-    console.error("Error obteniendo el ID del carrito: ", error);
-    return null;
-  }
-};
 const agregarProductoAlCarrito = async (pid) => {
   try {
     
@@ -62,14 +41,7 @@ async function realizarCompra() {
   }).then(async (result) => {
     if (result.isConfirmed) {
       try {
-        const cid = await obtenerIdCarrito();
-
-        if (!cid) {
-          console.error("El ID del carrito es inválido.");
-          return;
-        }
-
-        const response = await fetch(`/api/cart/${cid}/purchase`, {
+        const response = await fetch(`/api/cart/purchase`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -99,18 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (cartButton) {
     cartButton.addEventListener("click", async () => {
-      try {
-        const cid = await obtenerIdCarrito();
-
-        if (cid) {
-          window.location.assign(`/cart/`);
-        } else {
-          console.error("El ID del carrito es inválido.");
-        }
-      } catch (error) {
-        console.error("Error al obtener el ID del carrito: " + error);
-      }
-
+      window.location.assign(`/cart/`);      
       e.preventDefault();
     });
   }

@@ -39,7 +39,7 @@
               - ${{this.product.price}}
               - Cantidad:
               {{this.quantity}}
-               <button class="btn-delete-cart" onclick="eliminarProductoDelCarrito('{{this._id}}')">Eliminar</button>
+               <button class="btn-delete-cart" onclick="eliminarProductoDelCarrito('{{this.product._id}}')">Eliminar</button>
             </li>
           {{/each}}
         </ul>
@@ -52,20 +52,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const paymentButton = document.getElementById("payment");
 
   if (paymentButton) {
-    paymentButton.addEventListener("click", async () => {
-      const cartId = await obtenerIdCarrito();
-
-      if (!cartId) {
-        console.error("El ID del carrito es inválido o no se ha encontrado.");
-        return;
-      }
+    paymentButton.addEventListener("click", async () => {   
 
       const response = await fetch("/payment/create-checkout-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ cartId: cartId }) 
+        }
       });
 
       const data = await response.json();

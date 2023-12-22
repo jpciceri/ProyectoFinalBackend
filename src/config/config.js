@@ -46,4 +46,5 @@ export const ENV_CONFIG = {
     EMAIL_PASS: process.env.EMAIL_PASS,
     twilioAccountSid: process.env.TWILIO_ACCOUNT_SID,
     twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,
+    stripeKey: process.env.STRIPE_KEY
 }

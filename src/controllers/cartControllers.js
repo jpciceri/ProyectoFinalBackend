@@ -103,7 +103,7 @@ class CartController {
 
   async deleteProductFromCart(req, res) {
     try {
-      const pid = req.params;
+      const pid = req.params.pid;
       const result = await this.cartService.deleteProductFromCart(req.session.user.cart, pid);
       res.send(result);
     } catch (error) {
@@ -160,7 +160,7 @@ class CartController {
       }
 
       const totalAmount = successfulProducts.reduce((total, item) => {
-        const productPrice = item.product.price;
+        const productPrice = parseInt(item.product.price);
         const productQuantity = item.quantity;
 
         if (
