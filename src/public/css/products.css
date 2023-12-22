@@ -197,6 +197,12 @@ body {
     width: 150px;
 }
 
+.casio-logo {
+    width: 200px;
+    height: 50px;
+    margin: 20px
+}
+
 .container-nav {
     display: flex;
     align-items: center;

@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const cid = await obtenerIdCarrito();
 
         if (cid) {
-          window.location.assign(`/cart/`);
+          window.location.assign(`/carts/`);
         } else {
           console.error("El ID del carrito es inválido.");
         }
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 const eliminarProductoDelCarrito = async (pid) => {
   try {
-    const response = await fetch(`/api/cart/products/${pid}`, {
+    const response = await fetch(`/api/carts/products/${pid}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });

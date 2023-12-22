@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/src/public/css/style.css">
   <title>Lista de Productos</title>
 </head>
-<body>
-      <picture>
-        <img src="/src/images/banner-casio.avif" class="mx-auto d-block" loading="lazy" alt="ERIC HAZE"
-            style="width: auto; height: 588.2px; margin: 0px auto;" width="1920" height="816" aria-hidden="true">
-    </picture>
 
- <div class="container" id="home-color">
-  <div class="search-bar">
-</div>
-      <h1>Relojes Casio</h1>
-      <ul class="lista-productos">
-        {{#each products.payload}}
-          <div class="product"><img src={{this.thumbnails}}><a href="/products/{{this._id}}"><li>Nombre: {{this.title}}</li></a></div>
-        {{/each}}
-      </ul>
-</div>
+<body>
+  <picture>
+    <img src="/src/images/banner-casio.avif" class="mx-auto d-block" loading="lazy" alt="ERIC HAZE"
+      style="width: auto; height: 588.2px; margin: 0px auto;" width="1920" height="816" aria-hidden="true">
+  </picture>
+
+  <div class="container" id="home-color">
+    <div class="search-bar">
+    </div>
+<button type="button" class="btn btn-primary"><a href="/login">Login</a></button>
+
+
+    <h1>Relojes Casio</h1>
+    <ul class="lista-productos">
+      {{#each products.payload}}
+      <div class="product"><img src={{this.thumbnails}}><a href="/products/{{this._id}}">
+          <li>Nombre: {{this.title}}</li>
+        </a></div>
+      {{/each}}
+    </ul>
+  </div>
 </body>
 
 <script src="socket.io/socket.io.js"></script>
