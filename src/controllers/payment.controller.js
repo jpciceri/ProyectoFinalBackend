@@ -45,8 +45,10 @@ export const createPayment = async (req, res) => {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `http://localhost:8080/payment/payment-success?session_id={CHECKOUT_SESSION_ID}&cart_id=${cartId}`,
-      cancel_url: "http://localhost:8080/cancel",
+      // success_url: `http://localhost:8080/payment/payment-success?session_id={CHECKOUT_SESSION_ID}&cart_id=${cartId}`,
+      // cancel_url: "http://localhost:8080/cancel",
+      success_url: `https://proyectofinalbackend-production-cd97.up.railway.app/payment/payment-success?session_id={CHECKOUT_SESSION_ID}&cart_id=${cartId}`,
+      cancel_url: "https://proyectofinalbackend-production-cd97.up.railway.app/cancel",
     });
 
     res.json(session);

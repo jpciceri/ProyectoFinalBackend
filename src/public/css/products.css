@@ -103,7 +103,7 @@ body {
 
 .btn-uploads {
     border: none;
-    background-color: #7D5A5A;
+    background-color: #151414;
     color: #FFF;
     width: 150px;
     height: 40px;
@@ -227,14 +227,14 @@ body {
 }
 
 .container-nav ul li a {
-    color: #7D5A5A;
+    color: #000000;
     text-decoration: none;
 }
 
 .title-home {
     font-size: 4.5rem;
     font-weight: bold;
-    color: #886F6F;
+    color: #030303;
 }
 
 .container-register {
