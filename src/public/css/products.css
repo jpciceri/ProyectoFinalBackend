@@ -179,6 +179,11 @@ body {
 
 .btn-delete-cart {
     margin-left: 15px;
+
+}
+
+#eliminar-producto{
+        background-color: #f07c24;
 }
 
 .product-cart {

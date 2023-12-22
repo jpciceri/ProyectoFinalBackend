@@ -39,7 +39,7 @@
               - ${{this.product.price}}
               - Cantidad:
               {{this.quantity}}
-               <button class="btn-delete-cart" onclick="eliminarProductoDelCarrito('{{this.product._id}}')">Eliminar</button>
+               <button id="eliminar-producto" class="btn-delete-cart" onclick="eliminarProductoDelCarrito('{{this.product._id}}')">Eliminar</button>
             </li>
           {{/each}}
         </ul>
