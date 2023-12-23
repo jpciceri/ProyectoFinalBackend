@@ -137,4 +137,23 @@ router.get("/failregister", async (req, res) => {
     message: "Error! No se pudo registar el Usuario!",
   });
 });
+
+
+router.get("/upload/:uid", (req, res) => {
+  const userId = req.params.uid;
+  console.log("UserID:", userId);
+  res.render("uploads", { userId });
+});
+
+router.get("/premium/:uid", (req, res) => {
+  const userId = req.params.uid;
+  console.log("UserID:", userId);
+  res.render("premium", { userId });
+});
+
+router.get("/adminController", async (req, res) => {
+  const users = await userModel.find();
+  res.render("adminController", { users });
+});
+
 export default router;
