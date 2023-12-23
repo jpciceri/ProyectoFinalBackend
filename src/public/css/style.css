@@ -154,11 +154,17 @@ img {
     padding: 10px;
 }
 
+li {
+    list-style: none;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+}
 
 .delete-button {
     border: none;
     border-radius: 5px;
-    background-color: #886F6F;
+    background-color: #3b3939;
     color: #FFF;
     padding: 5px;
     margin-left: 5px;
@@ -168,7 +174,7 @@ img {
 .edit-button {
     border: none;
     border-radius: 5px;
-    background-color: #886F6F;
+    background-color: #211a1a;
     color: #FFF;
     padding: 5px;
     margin-left: 5px;
@@ -185,7 +191,7 @@ img {
 }
 
 .panel-admin h1 {
-    color: #886F6F;
+    color: #938b8b;
     padding: 5%;
 }
 
@@ -205,4 +211,8 @@ img {
     background-color: #424040;
     color: #FFF;
     padding: 5px;
+}
+
+#userList{
+    align-content: flex-start;
 }
