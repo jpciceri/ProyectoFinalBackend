@@ -285,6 +285,90 @@ class UserController {
   async getCart(req, res) {
    return  res.json({ id : req.session.user.cart});
   }
+  async getAllUsers(req, res) {
+    try {
+      const users = await userModel.find();
+      res.status(200).json(users);
+    } catch (error) {
+      console.error("Error al obtener usuarios:", error);
+      res.status(500).send("Error interno del servidor.");
+    }
+  }
+
+  async deleteInactiveUsers(req, res) {
+    try {
+      const twoDaysAgo = new Date(new Date().setDate(new Date().getDate() - 2));
+
+      //prueba para 5 minutos de inactividad
+      // const currentTime = new Date();
+      // const fiveMinutesAgo = new Date(currentTime.getTime() - 5 * 60 * 1000);
+
+      const inactiveUsers = await userModel.find({
+        last_connection: { $lt: twoDaysAgo },
+      });
+
+      for (const user of inactiveUsers) {
+        const mailOptions = {
+          from: "Coder Test " + ENV_CONFIG.emailUser,
+          to: user.email,
+          subject: "Notificación de Eliminación de Cuenta",
+          html: "<p>Su cuenta ha sido eliminada debido a inactividad prolongada.</p>",
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        await userModel.findByIdAndDelete(user._id);
+      }
+
+      res.status(200).json({
+        message: "Usuarios inactivos eliminados y notificados",
+        deletedCount: inactiveUsers.length,
+      });
+    } catch (error) {
+      console.error("Error al eliminar usuarios inactivos:", error);
+      res.status(500).send("Error interno del servidor.");
+    }
+  }
+
+  async deleteUser(req, res) {
+    try {
+        const userId = req.params.uid;
+        const user = await userModel.findById(userId);
+
+        if (!user) {
+            return res.status(404).send({ success: false, message: "Usuario no encontrado." });
+        }
+
+        await userModel.findByIdAndDelete(userId);
+
+        res.status(200).send({ success: true, message: "Usuario eliminado con éxito." });
+    } catch (error) {
+        console.error("Error eliminando usuario:", error);
+        res.status(500).send({ success: false, message: "Error interno del servidor." });
+    }
+}
+
+async changeUserRole(req, res) {
+  try {
+      const userId = req.params.uid;
+      const { role } = req.body;
+
+      const user = await userModel.findById(userId);
+
+      if (!user) {
+          return res.status(404).send({ success: false, message: "Usuario no encontrado." });
+      }
+
+      user.role = role;
+      await user.save();
+
+      res.status(200).send({ success: true, message: "Rol de usuario actualizado con éxito." });
+  } catch (error) {
+      console.error("Error actualizando rol de usuario:", error);
+      res.status(500).send({ success: false, message: "Error interno del servidor." });
+  }
+}
+
 }
 
 export default new UserController;

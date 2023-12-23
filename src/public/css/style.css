@@ -154,3 +154,55 @@ img {
     padding: 10px;
 }
 
+
+.delete-button {
+    border: none;
+    border-radius: 5px;
+    background-color: #886F6F;
+    color: #FFF;
+    padding: 5px;
+    margin-left: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.edit-button {
+    border: none;
+    border-radius: 5px;
+    background-color: #886F6F;
+    color: #FFF;
+    padding: 5px;
+    margin-left: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.panel-admin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.panel-admin h1 {
+    color: #886F6F;
+    padding: 5%;
+}
+
+.panel-admin-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #F8F6F4;
+    margin-top: 10%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.role-change-button {
+    border: none;
+    border-radius: 5px;
+    background-color: #424040;
+    color: #FFF;
+    padding: 5px;
+}
